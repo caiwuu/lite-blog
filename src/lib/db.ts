@@ -1,7 +1,4 @@
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
-import path from 'path';
 
 export const posts = sqliteTable('posts', {
   id: integer('id').primaryKey({ autoIncrement: true }),
@@ -12,18 +9,35 @@ export const posts = sqliteTable('posts', {
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
 });
 
-const dbPath = path.join(process.cwd(), 'blog.db');
-const sqlite = new Database(dbPath);
-export const db = drizzle(sqlite);
+function createDb() {
+  if (process.env.TURSO_DATABASE_URL) {
+    // Production: Turso (libsql)
+    const { createClient } = require('@libsql/client');
+    const { drizzle } = require('drizzle-orm/libsql');
+    const client = createClient({
+      url: process.env.TURSO_DATABASE_URL,
+      authToken: process.env.TURSO_AUTH_TOKEN,
+    });
+    return drizzle(client);
+  } else {
+    // Development: local SQLite
+    const Database = require('better-sqlite3');
+    const { drizzle } = require('drizzle-orm/better-sqlite3');
+    const path = require('path');
+    const dbPath = path.join(process.cwd(), 'blog.db');
+    const sqlite = new Database(dbPath);
+    sqlite.exec(`
+      CREATE TABLE IF NOT EXISTS posts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        slug TEXT NOT NULL UNIQUE,
+        content TEXT NOT NULL,
+        tags TEXT NOT NULL DEFAULT '',
+        created_at INTEGER NOT NULL
+      )
+    `);
+    return drizzle(sqlite);
+  }
+}
 
-// Create table if not exists
-sqlite.exec(`
-  CREATE TABLE IF NOT EXISTS posts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    slug TEXT NOT NULL UNIQUE,
-    content TEXT NOT NULL,
-    tags TEXT NOT NULL DEFAULT '',
-    created_at INTEGER NOT NULL
-  )
-`);
+export const db = createDb();
