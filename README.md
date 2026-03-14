@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# lite-blog
 
-## Getting Started
+一个基于 Next.js + SQLite + Drizzle ORM 构建的轻量级博客系统。
 
-First, run the development server:
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/caiwuu/lite-blog)
+
+## 功能特性
+
+- 文章列表 & 详情页（含上下篇导航）
+- 标签系统 & 全文搜索
+- RSS Feed
+- 后台管理（密码认证 + Markdown 实时预览）
+- 支持 Turso 云数据库（生产环境）
+
+## 本地开发
 
 ```bash
+npm install
+npm run seed   # 填充示例数据
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+访问 [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 环境变量
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| 变量 | 说明 |
+|------|------|
+| `ADMIN_PASSWORD` | 后台管理密码 |
+| `TURSO_DATABASE_URL` | Turso 数据库 URL（生产环境）|
+| `TURSO_AUTH_TOKEN` | Turso 认证 Token（生产环境）|
 
-## Learn More
+## 技术栈
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js 16](https://nextjs.org) + TypeScript
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [Drizzle ORM](https://orm.drizzle.team) + SQLite / [Turso](https://turso.tech)
