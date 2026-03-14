@@ -1,14 +1,9 @@
-import { getPostBySlug, getAllPosts, getAdjacentPosts } from '@/lib/posts';
+import { getPostBySlug, getAdjacentPosts } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import MarkdownPreview from '@/components/MarkdownPreview';
 
 export const dynamic = 'force-dynamic';
-
-export async function generateStaticParams() {
-  const posts = await getAllPosts();
-  return posts.map(post => ({ slug: post.slug }));
-}
 
 function readingTime(content: string): number {
   const words = content.trim().split(/\s+/).length;
