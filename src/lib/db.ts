@@ -18,6 +18,16 @@ function createDb() {
       url: process.env.TURSO_DATABASE_URL,
       authToken: process.env.TURSO_AUTH_TOKEN,
     });
+    client.execute(`
+      CREATE TABLE IF NOT EXISTS posts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        slug TEXT NOT NULL UNIQUE,
+        content TEXT NOT NULL,
+        tags TEXT NOT NULL DEFAULT '',
+        created_at INTEGER NOT NULL
+      )
+    `);
     return drizzle(client);
   } else {
     // Development: local SQLite
