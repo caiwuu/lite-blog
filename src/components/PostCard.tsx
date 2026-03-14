@@ -13,13 +13,11 @@ export default function PostCard({ post }: { post: Post }) {
 
   return (
     <article
-      className="group rounded-xl p-6 transition-all duration-200"
+      className="group rounded-xl p-6 transition-all duration-200 post-card"
       style={{
         background: 'var(--background-card)',
         border: '1px solid var(--border)',
       }}
-      onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--border-hover)')}
-      onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
     >
       <Link href={`/posts/${post.slug}`} className="block mb-3">
         <h2

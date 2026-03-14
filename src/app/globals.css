@@ -36,6 +36,11 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
 
+/* PostCard hover */
+.post-card:hover {
+  border-color: var(--border-hover) !important;
+}
+
 /* MDEditor preview */
 .wmde-markdown {
   padding: 0 !important;
