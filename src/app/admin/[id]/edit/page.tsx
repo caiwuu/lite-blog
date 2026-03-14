@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import type { Post } from '@/lib/posts';
+import MarkdownEditor from '@/components/MarkdownEditor';
 
 export default function EditPostPage() {
   const router = useRouter();
@@ -74,12 +75,7 @@ export default function EditPostPage() {
         </div>
         <div>
           <label className="block text-sm text-gray-400 mb-1">内容（Markdown）</label>
-          <textarea
-            className={`${inputCls} h-64 resize-y font-mono text-xs`}
-            style={{ color: 'var(--foreground)' }}
-            value={content}
-            onChange={e => setContent(e.target.value)}
-          />
+          <MarkdownEditor value={content} onChange={setContent} />
         </div>
         <div className="flex gap-3">
           <button

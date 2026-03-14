@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import MarkdownEditor from '@/components/MarkdownEditor';
 
 function toSlug(title: string) {
   return title
@@ -65,13 +66,7 @@ export default function NewPostPage() {
         </div>
         <div>
           <label className="block text-sm text-gray-400 mb-1">内容（Markdown）</label>
-          <textarea
-            className={`${inputCls} h-64 resize-y font-mono text-xs`}
-            style={{ color: 'var(--foreground)' }}
-            value={content}
-            onChange={e => setContent(e.target.value)}
-            placeholder="# 标题\n\n正文内容…"
-          />
+          <MarkdownEditor value={content} onChange={setContent} />
         </div>
         <div className="flex gap-3">
           <button
