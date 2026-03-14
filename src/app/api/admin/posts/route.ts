@@ -9,6 +9,6 @@ export async function POST(req: NextRequest) {
   if (!title || !slug || !content) {
     return NextResponse.json({ error: 'title, slug, content are required' }, { status: 400 });
   }
-  const post = createPost({ title, slug, content, tags: tags ?? '' });
+  const post = await createPost({ title, slug, content, tags: tags ?? '' });
   return NextResponse.json(post, { status: 201 });
 }

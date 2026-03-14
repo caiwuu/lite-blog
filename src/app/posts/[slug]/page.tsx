@@ -6,7 +6,7 @@ import MarkdownPreview from '@/components/MarkdownPreview';
 export const dynamic = 'force-dynamic';
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
   return posts.map(post => ({ slug: post.slug }));
 }
 
@@ -17,7 +17,7 @@ function readingTime(content: string): number {
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) notFound();
 
@@ -28,7 +28,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   });
   const tags = post.tags ? post.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
   const minutes = readingTime(post.content);
-  const { prev, next } = getAdjacentPosts(slug);
+  const { prev, next } = await getAdjacentPosts(slug);
 
   return (
     <article>

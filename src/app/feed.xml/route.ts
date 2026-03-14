@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-export function GET() {
-  const posts = getAllPosts();
+export async function GET() {
+  const posts = await getAllPosts();
   const baseUrl = 'http://localhost:3000';
 
   const items = posts.map(post => {

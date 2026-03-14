@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-export function GET() {
-  const posts = getAllPosts();
+export async function GET() {
+  const posts = await getAllPosts();
   return NextResponse.json(posts);
 }

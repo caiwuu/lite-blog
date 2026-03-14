@@ -3,8 +3,8 @@ import PostCard from '@/components/PostCard';
 
 export const dynamic = 'force-dynamic';
 
-export default function HomePage() {
-  const posts = getAllPosts();
+export default async function HomePage() {
+  const posts = await getAllPosts();
 
   return (
     <div>

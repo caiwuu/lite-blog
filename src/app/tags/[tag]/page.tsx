@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export default async function TagPage({ params }: { params: Promise<{ tag: string }> }) {
   const { tag } = await params;
   const decodedTag = decodeURIComponent(tag);
-  const posts = getPostsByTag(decodedTag);
+  const posts = await getPostsByTag(decodedTag);
 
   if (posts.length === 0) notFound();
 
