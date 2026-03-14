@@ -41,6 +41,11 @@ body {
   border-color: var(--border-hover) !important;
 }
 
+/* Admin row hover */
+.admin-row:hover {
+  border-color: var(--border-hover) !important;
+}
+
 /* MDEditor preview */
 .wmde-markdown {
   padding: 0 !important;
