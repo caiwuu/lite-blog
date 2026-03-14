@@ -2,7 +2,7 @@
 
 一个基于 Next.js + SQLite + Drizzle ORM 构建的轻量级博客系统。
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/caiwuu/lite-blog)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/caiwuu/lite-blog&env=ADMIN_PASSWORD,TURSO_DATABASE_URL,TURSO_AUTH_TOKEN&envDescription=后台密码+Turso数据库配置&envLink=https://github.com/caiwuu/lite-blog%23%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
 
 ## 功能特性
 
