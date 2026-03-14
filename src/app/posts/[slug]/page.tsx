@@ -1,13 +1,19 @@
-import { getPostBySlug, getAllPosts } from '@/lib/posts';
+import { getPostBySlug, getAllPosts, getAdjacentPosts } from '@/lib/posts';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
   return posts.map(post => ({ slug: post.slug }));
+}
+
+function readingTime(content: string): number {
+  const words = content.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -22,21 +28,50 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     day: 'numeric',
   });
   const tags = post.tags ? post.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+  const minutes = readingTime(post.content);
+  const { prev, next } = getAdjacentPosts(slug);
 
   return (
     <article>
-      <h1 className="text-3xl font-bold mb-3">{post.title}</h1>
-      <div className="flex items-center gap-4 mb-6 text-sm text-gray-500">
+      <h1 className="text-3xl font-bold mb-3" style={{ color: 'var(--foreground)' }}>{post.title}</h1>
+      <div className="flex items-center gap-4 mb-6 text-sm text-gray-400 flex-wrap">
         <span>{date}</span>
+        <span>·</span>
+        <span>约 {minutes} 分钟阅读</span>
         {tags.map(tag => (
-          <span key={tag} className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
+          <Link
+            key={tag}
+            href={`/tags/${encodeURIComponent(tag)}`}
+            className="border border-gray-600 text-gray-300 hover:border-sky-400 hover:text-sky-400 px-2 py-0.5 rounded text-xs transition-colors"
+          >
             {tag}
-          </span>
+          </Link>
         ))}
       </div>
-      <div className="prose prose-gray max-w-none">
+      <div className="prose prose-invert max-w-none">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
       </div>
+
+      {(prev || next) && (
+        <nav className="flex justify-between gap-4 mt-12 pt-6 border-t border-gray-700">
+          <div className="flex-1">
+            {prev && (
+              <Link href={`/posts/${prev.slug}`} className="group flex flex-col">
+                <span className="text-xs text-gray-500 mb-1">← 上一篇</span>
+                <span className="text-sm text-gray-300 group-hover:text-sky-400 transition-colors">{prev.title}</span>
+              </Link>
+            )}
+          </div>
+          <div className="flex-1 text-right">
+            {next && (
+              <Link href={`/posts/${next.slug}`} className="group flex flex-col items-end">
+                <span className="text-xs text-gray-500 mb-1">下一篇 →</span>
+                <span className="text-sm text-gray-300 group-hover:text-sky-400 transition-colors">{next.title}</span>
+              </Link>
+            )}
+          </div>
+        </nav>
+      )}
     </article>
   );
 }
