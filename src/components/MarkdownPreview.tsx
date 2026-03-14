@@ -10,8 +10,8 @@ const MDPreview = dynamic(
 
 export default function MarkdownPreview({ content }: { content: string }) {
   return (
-    <div data-color-mode="dark">
-      <MDPreview source={content} />
+    <div data-color-mode="dark" style={{ padding: '1.5rem 0' }}>
+      <MDPreview source={content} style={{ padding: '0' }} />
     </div>
   );
 }

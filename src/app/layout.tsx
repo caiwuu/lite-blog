@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="zh-CN">
       <body className="min-h-screen" style={{ background: 'var(--background)', color: 'var(--foreground)' }}>
         <Header />
-        <main className="max-w-3xl mx-auto px-4 pb-16">{children}</main>
+        <main className="max-w-3xl mx-auto px-6 pb-20">{children}</main>
       </body>
     </html>
   );

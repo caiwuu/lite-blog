@@ -32,38 +32,67 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   return (
     <article>
-      <h1 className="text-3xl font-bold mb-3" style={{ color: 'var(--foreground)' }}>{post.title}</h1>
-      <div className="flex items-center gap-4 mb-6 text-sm text-gray-400 flex-wrap">
-        <span>{date}</span>
-        <span>·</span>
-        <span>约 {minutes} 分钟阅读</span>
-        {tags.map(tag => (
-          <Link
-            key={tag}
-            href={`/tags/${encodeURIComponent(tag)}`}
-            className="border border-gray-600 text-gray-300 hover:border-sky-400 hover:text-sky-400 px-2 py-0.5 rounded text-xs transition-colors"
-          >
-            {tag}
-          </Link>
-        ))}
+      {/* Hero */}
+      <div className="mb-10">
+        <h1
+          className="text-4xl font-bold mb-4 leading-tight"
+          style={{ letterSpacing: '-0.04em', color: 'var(--foreground)' }}
+        >
+          {post.title}
+        </h1>
+        <div className="flex items-center gap-3 flex-wrap" style={{ color: 'var(--foreground-muted)', fontSize: '0.82rem' }}>
+          <span>{date}</span>
+          <span style={{ opacity: 0.4 }}>·</span>
+          <span>约 {minutes} 分钟阅读</span>
+          {tags.length > 0 && <span style={{ opacity: 0.4 }}>·</span>}
+          {tags.map(tag => (
+            <Link
+              key={tag}
+              href={`/tags/${encodeURIComponent(tag)}`}
+              className="transition-colors hover:text-sky-400 px-2 py-0.5 rounded-full"
+              style={{ border: '1px solid var(--border)', color: 'var(--foreground-muted)' }}
+            >
+              {tag}
+            </Link>
+          ))}
+        </div>
       </div>
+
+      {/* Divider */}
+      <div style={{ borderTop: '1px solid var(--border)', marginBottom: '2rem' }} />
+
+      {/* Content */}
       <MarkdownPreview content={post.content} />
 
+      {/* Prev / Next */}
       {(prev || next) && (
-        <nav className="flex justify-between gap-4 mt-12 pt-6 border-t border-gray-700">
+        <nav
+          className="flex justify-between gap-6 mt-16 pt-8"
+          style={{ borderTop: '1px solid var(--border)' }}
+        >
           <div className="flex-1">
             {prev && (
-              <Link href={`/posts/${prev.slug}`} className="group flex flex-col">
-                <span className="text-xs text-gray-500 mb-1">← 上一篇</span>
-                <span className="text-sm text-gray-300 group-hover:text-sky-400 transition-colors">{prev.title}</span>
+              <Link href={`/posts/${prev.slug}`} className="group flex flex-col gap-1">
+                <span className="text-xs" style={{ color: 'var(--foreground-muted)' }}>← 上一篇</span>
+                <span
+                  className="text-sm font-medium transition-colors group-hover:text-sky-400 leading-snug"
+                  style={{ color: 'var(--foreground)' }}
+                >
+                  {prev.title}
+                </span>
               </Link>
             )}
           </div>
           <div className="flex-1 text-right">
             {next && (
-              <Link href={`/posts/${next.slug}`} className="group flex flex-col items-end">
-                <span className="text-xs text-gray-500 mb-1">下一篇 →</span>
-                <span className="text-sm text-gray-300 group-hover:text-sky-400 transition-colors">{next.title}</span>
+              <Link href={`/posts/${next.slug}`} className="group flex flex-col gap-1 items-end">
+                <span className="text-xs" style={{ color: 'var(--foreground-muted)' }}>下一篇 →</span>
+                <span
+                  className="text-sm font-medium transition-colors group-hover:text-sky-400 leading-snug"
+                  style={{ color: 'var(--foreground)' }}
+                >
+                  {next.title}
+                </span>
               </Link>
             )}
           </div>
