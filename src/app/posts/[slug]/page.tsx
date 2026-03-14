@@ -1,8 +1,7 @@
 import { getPostBySlug, getAllPosts, getAdjacentPosts } from '@/lib/posts';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import MarkdownPreview from '@/components/MarkdownPreview';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,9 +47,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           </Link>
         ))}
       </div>
-      <div className="prose prose-invert max-w-none">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
-      </div>
+      <MarkdownPreview content={post.content} />
 
       {(prev || next) && (
         <nav className="flex justify-between gap-4 mt-12 pt-6 border-t border-gray-700">

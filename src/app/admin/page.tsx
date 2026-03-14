@@ -2,11 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import type { Post } from '@/lib/posts';
 
 export default function AdminPage() {
+  const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+
+  async function handleLogout() {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    router.push('/login');
+  }
 
   async function loadPosts() {
     const r = await fetch('/api/admin/posts-list');
@@ -28,12 +35,20 @@ export default function AdminPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold">文章管理</h1>
-        <Link
-          href="/admin/new"
-          className="border border-sky-500 text-sky-400 hover:bg-sky-500 hover:text-white px-4 py-2 rounded-lg text-sm transition-colors"
-        >
-          + 新建文章
-        </Link>
+        <div className="flex gap-3">
+          <Link
+            href="/admin/new"
+            className="border border-sky-500 text-sky-400 hover:bg-sky-500 hover:text-white px-4 py-2 rounded-lg text-sm transition-colors"
+          >
+            + 新建文章
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="border border-gray-600 text-gray-400 hover:border-red-400 hover:text-red-400 px-4 py-2 rounded-lg text-sm transition-colors"
+          >
+            退出登录
+          </button>
+        </div>
       </div>
       {loading ? (
         <p className="text-gray-400">加载中…</p>
